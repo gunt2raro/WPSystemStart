@@ -1,6 +1,7 @@
 package com.wpsystem.data;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -40,9 +41,48 @@ public class UserDaoImp implements UserDao{
 			listUserDTO.add(dto);
 		}
 		
+		session.close();
+		sessionFactory.close();
+		
 		return listUserDTO;
 		
 	}//End of getUsers Method
+	
+	/***
+	 * add User
+	 * Method that adds new User to table
+	 * @param UserDTO dto
+	 * @return Boolean if it is possible
+	 ********************************************/
+	@Override
+	public Boolean addUser( UserDTO dto ) {
+		Boolean ban;
+		try{
+			sessionFactory = new  AnnotationConfiguration().configure().buildSessionFactory();
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			
+			User u = this.DTOToModel(dto);
+			
+			session.save(u);
+			session.getTransaction().commit();
+			
+			ban = true;
+		}catch( Exception e ){			
+			ban = false;
+		}finally{
+			
+			if( session != null ){
+				session.close();
+			}
+			if( sessionFactory != null ){
+				sessionFactory.close();
+			}
+			
+		}
+		return ban;
+	}//End of newUser Method
+
 	
 	/***
 	 * ModelToDTO 
@@ -73,13 +113,13 @@ public class UserDaoImp implements UserDao{
 		
 		User u = new User();
 		
-		u.setUserid( dto.getUserid() );
 		u.setUsername( dto.getUsername() );
 		u.setPassword( dto.getPassword() );
-		u.setUserid( dto.getPermissionid() );
+		u.setPermissionid( dto.getPermissionid() );
 		
 		return u;
 		
 	}//End of DTOToModel Method
 
+	
 }//End of UserDao Implementation Class

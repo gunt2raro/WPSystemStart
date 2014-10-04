@@ -23,5 +23,5 @@
     <listener>
         <listener-class>com.wpsystem.config.GuiceConfig</listener-class>
     </listener>
-    
- </web-app>
+
+</web-app>

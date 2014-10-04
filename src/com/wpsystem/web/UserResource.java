@@ -45,7 +45,9 @@ public class UserResource {
 		
 		Boolean res = this.userService.addUser(username, password, 2);
 		return res.toString();
-		
+		//return Response.ok().build();
+		//return Response.status(200).build();
+		//return Response.notModified().build();
 	}//End of new User Method
 	
 	
